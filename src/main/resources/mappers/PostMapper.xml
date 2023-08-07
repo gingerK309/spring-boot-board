@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.board.demo.mapper.PostMapper">
+    <!-- post 테이블 전체 컬럼 -->
+    <sql id="postColumns">
+        id, title, content, writer, view_cnt, notice_yn, delete_yn, created_date, modified_date
+    </sql>
+
+    <!-- 게시글 저장 -->
+    <insert id="insertPost" parameterType="com.board.demo.model.request.PostRequest" useGeneratedKeys="true" keyProperty="id">
+         INSERT INTO board_post(
+            <include refid="postColumns" />
+        )VALUES(
+            #{id},
+            #{title},
+            #{content},
+            #{writer},
+            0,
+            #{noticeYn},
+            0,
+            Now(),
+            NULL
+        )
+    </insert>
+
+    <select id="findById" parameterType="long" resultType="com.board.demo.model.response.PostResponse">
+        SELECT <include refid="postColumns" /> FROM board_post WHERE id = #{value}
+    </select>
+    
+    <update id="updatePost" parameterType="com.board.demo.model.request.PostRequest">
+        UPDATE board_post
+        SET
+            modified_date = NOW(),
+            title = #{title},
+            content = #{content},
+            writer = #{writer},
+            notice_yn = #{noticeYn}
+        WHERE id = #{id}
+    </update>
+
+    <update id="deleteById" parameterType="long">
+        UPDATE board_post
+        SET delete_yn = 1
+        WHERE id = #{id}
+    </update>
+
+    <select id = "findAllPost" resultType="com.board.demo.model.response.PostResponse">
+        SELECT <include refid="postColumns" />
+        FROM board_post
+        WHERE delete_yn = 0
+        ORDER BY id DESC;
+    </select>
+
+
+    <select id = "postCount" resultType="int">
+        SELECT COUNT(id)
+        FROM board_post
+        WHERE delete_yn = 0
+        ORDER BY id DESC;
+    </select>
+
+
+</mapper>
