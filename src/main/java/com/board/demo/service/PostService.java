@@ -1,6 +1,7 @@
 package com.board.demo.service;
 
 import com.board.demo.mapper.PostMapper;
+import com.board.demo.model.SearchDTO;
 import com.board.demo.model.request.PostRequest;
 import com.board.demo.model.response.PostResponse;
 import lombok.RequiredArgsConstructor;
@@ -38,8 +39,8 @@ public class PostService {
         return id;
     }
 
-    public List<PostResponse> findAllPost(){
-        return postMapper.findAllPost();
+    public List<PostResponse> findAllPost(final SearchDTO page){
+        return postMapper.findAllPost(page);
     }
 
 }

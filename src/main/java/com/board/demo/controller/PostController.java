@@ -1,15 +1,15 @@
 package com.board.demo.controller;
 
 
+import com.board.demo.model.MessageDTO;
+import com.board.demo.model.SearchDTO;
 import com.board.demo.model.request.PostRequest;
 import com.board.demo.model.response.PostResponse;
 import com.board.demo.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,14 +28,14 @@ public class PostController {
     }
 
     @PostMapping("/post/save.do")
-    public String savePost(final PostRequest post){
+    public String savePost(final PostRequest post,Model model){
         postService.savePost(post);
         return "redirect:/post/list.do";
     }
 
     @GetMapping("/post/list.do")
-    public String showPostList(Model model){
-        List<PostResponse> posts = postService.findAllPost();
+    public String showPostList(@ModelAttribute("page") final SearchDTO page, Model model){
+        List<PostResponse> posts = postService.findAllPost(page);
         model.addAttribute("posts",posts);
         return "post/list";
     }

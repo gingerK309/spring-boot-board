@@ -45,19 +45,19 @@
         WHERE id = #{id}
     </update>
 
-    <select id = "findAllPost" resultType="com.board.demo.model.response.PostResponse">
+    <select id = "findAllPost" parameterType="com.board.demo.model.SearchDTO" resultType="com.board.demo.model.response.PostResponse">
         SELECT <include refid="postColumns" />
         FROM board_post
         WHERE delete_yn = 0
-        ORDER BY id DESC;
+        ORDER BY id DESC
+        LIMIT #{offset}, #{recordSize};
     </select>
 
 
-    <select id = "postCount" resultType="int">
+    <select id = "postCount" parameterType="com.board.demo.model.SearchDTO" resultType="int">
         SELECT COUNT(id)
         FROM board_post
-        WHERE delete_yn = 0
-        ORDER BY id DESC;
+        WHERE delete_yn = 0;
     </select>
 
 

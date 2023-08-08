@@ -1,5 +1,6 @@
 package com.board.demo.mapper;
 
+import com.board.demo.model.SearchDTO;
 import com.board.demo.model.request.PostRequest;
 import com.board.demo.model.response.PostResponse;
 import org.apache.ibatis.annotations.Mapper;
@@ -17,7 +18,7 @@ public interface PostMapper {
 
     void deleteById(Long id);
     
-    List<PostResponse> findAllPost();
+    List<PostResponse> findAllPost(SearchDTO pagination);
 
-    int postCount();
+    int postCount(SearchDTO pagination);
 }
